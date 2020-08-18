@@ -38,9 +38,4 @@ class SubPage extends StatelessWidget {
       ),
     );
   }
-
-  // 保存
-  void pressdSaveButton(BuildContext context) {
-    return Navigator.of(context).pop();
-  }
 }

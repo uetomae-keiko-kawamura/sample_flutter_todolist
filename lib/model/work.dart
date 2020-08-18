@@ -3,6 +3,7 @@ class Work {
   /**
    * field
    */
+  int id;         // id
   String title;   // タイトル
   String detail;  // 内容
   DateTime date;  // 期限
@@ -12,12 +13,13 @@ class Work {
   /**
    * Constructor
    */
-  Work({this.title,this.detail,this.date,this.progress,this.end_flg});
+  Work({this.id,this.title,this.detail,this.date,this.progress,this.end_flg});
 
   /**
    * method
    */
   Map<String, dynamic> toMap() =>{
+    "id" : id,
     "title" : title,
     "detail" : detail,
     "date" : date,
@@ -26,6 +28,7 @@ class Work {
   };
 
   factory Work.fromMap(Map<String, dynamic> map) => Work(
+    id : map["id"],
     title: map["title"],
     detail: map["detail"],
     date: map["date"],
@@ -34,6 +37,7 @@ class Work {
   );
 
   factory Work.fromJson(Map<String, dynamic> json) => Work(
+    id : json['id'],
     title :json['title'],
     detail: json['detail'],
     date: json['date'],
@@ -42,7 +46,8 @@ class Work {
   );
 
   String toString() {
-    return "- title:" + title + ",\n"
+    return "- id:" + id.toString() + ',\n'
+        + "- title:" + title + ",\n"
         + "- detail:" + detail + ",\n"
         + "- date" + date.toString() + ",\n"
         + "- progress" + progress.toString() + ",\n"
