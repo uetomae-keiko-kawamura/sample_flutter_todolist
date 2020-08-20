@@ -71,7 +71,7 @@ class WorkBloc {
   /**
    * データベーステスト
    */
-  Future<String> testWorkDB () async{
+  Future<List<Work>> testWorkDB () async{
 
     // メモ
     final Future<Database> database = openDatabase(
@@ -90,7 +90,13 @@ class WorkBloc {
 
     insertWork(work);
 
-    return getWorks().toString();
+    work = Work(
+      id: work.id + 1,
+      title: "二行目",
+    );
+    insertWork(work);
+
+    return getWorks();
 
   }
 }
