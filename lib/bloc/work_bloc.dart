@@ -1,6 +1,7 @@
-import 'package:flutter_app_todo/model/work.dart';
+import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter_app_todo/model/work.dart';
 
 class WorkBloc {
 
@@ -70,21 +71,21 @@ class WorkBloc {
   /**
    * データベーステスト
    */
-  String testWorkDB () {
+  Future<String> testWorkDB () async{
 
     // メモ
-    final database = openDatabase(
-        join(await getDatabasesPath(), 'memo_database.db'),
-        onCreate: (db, version) {
-    return db.execute(
-    "CREATE TABLE work(id INTEGER PRIMARY KEY, title TEXT)",
-    );
-    },
-    version: 1,
+    final Future<Database> database = openDatabase(
+          join(await getDatabasesPath(), 'work_database.db'),
+          onCreate: (db, version) {
+        return db.execute(
+        "CREATE TABLE work(id INTEGER PRIMARY KEY, title TEXT)",
+        );
+      },
+      version: 1,
     );
     var work = Work(
-    id: 0,
-    title: 'work',
+      id: 0,
+      title: 'work',
     );
 
     insertWork(work);

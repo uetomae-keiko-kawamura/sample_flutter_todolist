@@ -1,5 +1,3 @@
-import 'package:sqflite/sqflite.dart';
-
 class Memo {
   final int id;
   final String text;
@@ -13,5 +11,10 @@ class Memo {
       'text': text,
       'priority': priority,
     };
+  }
+
+  @override
+  String toString() {
+    return 'Memo{id: $id, tet: $text, priority: $priority}';
   }
 }

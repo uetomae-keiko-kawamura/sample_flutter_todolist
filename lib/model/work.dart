@@ -45,6 +45,7 @@ class Work {
     end_flg: json['end_flg']
   );
 
+  @override
   String toString() {
     return "- id:" + id.toString() + ',\n'
         + "- title:" + title + ",\n"

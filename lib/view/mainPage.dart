@@ -26,7 +26,6 @@ class MainPage extends StatelessWidget {
                 onPressed: () => Navigator.of(context).pushNamed("/subpage"),
                 child: Icon(Icons.add),
               ),
-              Text(memo_bloc.testDB ().toString()),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
-import 'package:flutter_app_todo/model/memo.dart';
+import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter_app_todo/model/memo.dart';
 
 class MemoBloc {
 
@@ -86,27 +87,27 @@ class MemoBloc {
   /**
    * データベーステスト
    */
-  String testDB () {
+  Future<List<Memo>> testDB () async{
 
     // メモ
-    final database = openDatabase(
-        join(await getDatabasesPath(), 'memo_database.db'), // ここがFuture<String>とStringで型エラーになる
-        onCreate: (db, version) {
-    return db.execute(
-    "CREATE TABLE memo(id INTEGER PRIMARY KEY, text TEXT, priority INTEGER)",
-    );
-    },
-    version: 1,
+    final Future<Database> database = openDatabase(
+          join(await getDatabasesPath(), 'memo_database.db'),
+          onCreate: (db, version) {
+        return db.execute(
+          "CREATE TABLE memo(id INTEGER PRIMARY KEY, text TEXT, priority INTEGER)",
+        );
+      },
+      version: 1,
     );
     var memo = Memo(
-    id: 0,
-    text: 'Flutterで遊ぶ',
-    priority: 1,
+      id: 0,
+      text: 'Flutterで遊ぶ',
+      priority: 1,
     );
 
     insertMemo(memo);
 
-    return getMemos().toString();
+    return getMemos();
 
     /*
 
