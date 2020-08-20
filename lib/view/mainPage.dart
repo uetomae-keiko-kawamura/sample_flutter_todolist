@@ -6,44 +6,73 @@ import 'package:path/path.dart';
 
 // メインページ
 class MainPage extends StatelessWidget {
-
+  int _currentIndex = 0;
+  final _pageWidgets = [
+    PageWidget(color:Colors.white, title:'Home'),
+    PageWidget(color:Colors.blue, title:'Album'),
+    PageWidget(color:Colors.orange, title:'Chat'),
+  ];
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('ToDo List'),
-      ),
-      body: Column (
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-              itemCount: 3,
-              itemBuilder: (BuildContext context, int index){
-                return Text(
-                  "確認",
-                  style: TextStyle(fontSize: 20),
-                );
-              }),
-          )
-        ]
-      )
-/*
-      body: new Container(
-        padding: new EdgeInsets.all(32.0),
-        child: new Center(
-          child: new Column(
-            // 下のほうに設置
-            mainAxisAlignment: MainAxisAlignment.end,
+        appBar: new AppBar(
+          title: new Text('ToDo List'),
+        ),
+        body: Column(
             children: <Widget>[
-              // 追加ボタン
-              FloatingActionButton(
-                onPressed: () => Navigator.of(context).pushNamed("/subpage"),
-                child: Icon(Icons.add),
-              ),
-            ],
+              Expanded(
+                  child: FutureBuilder(
+                      future: WorkBloc().getWorks(),
+                      builder: (context, future) {
+                        if (!future.hasData) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        return ListView.builder(
+//                  controller: listScrollController,
+                            itemCount: future.data.length,
+                            itemBuilder: (context, index) {
+                              return Text(future.data.toList()[index]);
+                            }
+                        );
+                      }
+                  )
+              )
+            ]
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+            BottomNavigationBarItem(icon: Icon(Icons.add), title: Text('Add')),
+//            BottomNavigationBarItem(icon: Icon(Icons.chat), title: Text('Chat')),
+          ],
+          currentIndex: _currentIndex,
+          fixedColor: Colors.blueAccent,
+//          onTap: _onItemTapped,
+          type: BottomNavigationBarType.fixed,
+        )
+    );
+  }
+//  void _onItemTapped(int index) => setState(() => _currentIndex = index );
+}
+
+class PageWidget extends StatelessWidget {
+  final Color color;
+  final String title;
+
+  PageWidget({Key key, this.color, this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color,
+      child: Center(
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 25,
           ),
         ),
       ),
- */
     );
   }
+}
