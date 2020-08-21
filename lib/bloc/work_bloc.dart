@@ -53,7 +53,10 @@ class WorkBloc {
    * 取得（全件）
    */
   Future<List<Work>> getWorks() async {
+    return List.of([new Work(id: 1, title: "work"), new Work(id: 2, title: "二行目"), new Work(id: 3, title: "test")]);
+/*
     var database;
+
     final Database db = await database;
 
     // 全件取得
@@ -66,6 +69,7 @@ class WorkBloc {
         title: maps[i]['title'],
       );
     });
+ */
   }
 
   /**
@@ -83,18 +87,19 @@ class WorkBloc {
       },
       version: 1,
     );
+
     var work = Work(
       id: 0,
       title: 'work',
     );
 
-    insertWork(work);
+//    await insertWork(work);
 
     work = Work(
       id: work.id + 1,
       title: "二行目",
     );
-    insertWork(work);
+//    await insertWork(work);
 
     return getWorks();
 

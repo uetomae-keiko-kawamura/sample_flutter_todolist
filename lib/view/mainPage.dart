@@ -10,7 +10,6 @@ class MainPage extends StatelessWidget {
   final _pageWidgets = [
     PageWidget(color:Colors.white, title:'Home'),
     PageWidget(color:Colors.blue, title:'Album'),
-    PageWidget(color:Colors.orange, title:'Chat'),
   ];
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class MainPage extends StatelessWidget {
         body: Column(
             children: <Widget>[
               Expanded(
-                  child: FutureBuilder(
+                  child: FutureBuilder<List<Work>>(
                       future: WorkBloc().getWorks(),
                       builder: (context, future) {
                         if (!future.hasData) {
@@ -31,7 +30,7 @@ class MainPage extends StatelessWidget {
 //                  controller: listScrollController,
                             itemCount: future.data.length,
                             itemBuilder: (context, index) {
-                              return Text(future.data.toList()[index]);
+                              return Text(future.data.toList()[index].title);
                             }
                         );
                       }
@@ -43,7 +42,6 @@ class MainPage extends StatelessWidget {
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
             BottomNavigationBarItem(icon: Icon(Icons.add), title: Text('Add')),
-//            BottomNavigationBarItem(icon: Icon(Icons.chat), title: Text('Chat')),
           ],
           currentIndex: _currentIndex,
           fixedColor: Colors.blueAccent,
