@@ -30,7 +30,7 @@ class MainPage extends StatelessWidget {
 //                  controller: listScrollController,
                             itemCount: future.data.length,
                             itemBuilder: (context, index) {
-                              return Text(future.data.toList()[index].title);
+                              return Text(future.data.toList()[index].task);
                             }
                         );
                       }

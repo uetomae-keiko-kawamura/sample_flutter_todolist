@@ -26,8 +26,8 @@ class SubPage extends StatelessWidget {
                 style: TextStyle(color: Colors.blueGrey),
                 obscureText: false,
                 maxLines: 1,
-                onChanged: (title) {
-                  this.work.title = title;
+                onChanged: (task) {
+                  this.work.task = task;
                 },
               ),
               RaisedButton(onPressed: () => Navigator.of(context).pop(), child: new Text('保存'),),
