@@ -3,7 +3,7 @@ class Work {
   /**
    * field
    */
-  int id;           // id
+  String id;           // id
   String task;      // タスク
   DateTime duedate; // 期日
   String person;    // 登録者
@@ -43,7 +43,7 @@ class Work {
 
   @override
   String toString() {
-    return "- id:" + id.toString() + ',\n'
+    return "- id:" + id + ',\n'
         + "- task:" + task + ",\n"
         + "- duedate:" + duedate.toString() + ",\n"
         + "- person" + person.toString() + ",\n"

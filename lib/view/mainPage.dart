@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_todo/bloc/api_call.dart';
 import 'package:flutter_app_todo/bloc/work_bloc.dart';
 import 'package:flutter_app_todo/model/work.dart';
 import 'package:path/path.dart';
@@ -10,6 +11,7 @@ class MainPage extends StatelessWidget {
   final _pageWidgets = [
     PageWidget(color:Colors.white, title:'Home'),
     PageWidget(color:Colors.blue, title:'Album'),
+    PageWidget(color:Colors.orange, title:'Chat'),
   ];
   @override
   Widget build(BuildContext context) {
@@ -20,8 +22,8 @@ class MainPage extends StatelessWidget {
         body: Column(
             children: <Widget>[
               Expanded(
-                  child: FutureBuilder<List<Work>>(
-                      future: WorkBloc().getWorks(),
+                  child: FutureBuilder(
+                      future: ApiCall().getWorks(),
                       builder: (context, future) {
                         if (!future.hasData) {
                           return Center(child: CircularProgressIndicator());
@@ -42,6 +44,7 @@ class MainPage extends StatelessWidget {
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
             BottomNavigationBarItem(icon: Icon(Icons.add), title: Text('Add')),
+//            BottomNavigationBarItem(icon: Icon(Icons.chat), title: Text('Chat')),
           ],
           currentIndex: _currentIndex,
           fixedColor: Colors.blueAccent,

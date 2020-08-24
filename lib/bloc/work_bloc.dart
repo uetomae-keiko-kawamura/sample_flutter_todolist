@@ -53,7 +53,7 @@ class WorkBloc {
    * 取得（全件）
    */
   Future<List<Work>> getWorks() async {
-    return List.of([new Work(id: 1, task: "work"), new Work(id: 2, task: "二行目"), new Work(id: 3, task: "test")]);
+    return List.of([new Work(id: "1", task: "work"), new Work(id: "2", task: "二行目"), new Work(id: "3", task: "test")]);
 /*
     var database;
 
@@ -89,14 +89,14 @@ class WorkBloc {
     );
 
     var work = Work(
-      id: 0,
+      id: "0",
       task: 'work',
     );
 
 //    await insertWork(work);
 
     work = Work(
-      id: work.id + 1,
+      id: "1",
       task: "二行目",
     );
 //    await insertWork(work);
