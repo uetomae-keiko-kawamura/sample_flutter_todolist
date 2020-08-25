@@ -22,28 +22,29 @@ class MainPage extends StatelessWidget {
         body: Column(
             children: <Widget>[
               Expanded(
-                  child: FutureBuilder(
+                  child: FutureBuilder<List<Work>>(
                       future: ApiCall().getWorks(),
                       builder: (context, future) {
                         if (!future.hasData) {
                           return Center(child: CircularProgressIndicator());
-                        }
-                        return ListView.builder(
+                        } else {
+                          return ListView.builder(
 //                            controller: listScrollController,
-                            itemCount: future.data.length,
-                            itemBuilder: (context, index) {
+                              itemCount: future.data.length,
+                              itemBuilder: (context, index) {
 //                              print("len:" + future.data.length.toString());
 //                              print("data:" + future.data[index].task);
-                              return Text(
-                                  future.data[index].task,
-                                  style: TextStyle(
-                                      backgroundColor: Colors.blueGrey,
-                                      color: Colors.orange,
-                                      fontSize: 18.0
-                                  )
-                              );
-                            }
-                        );
+                                return Text(
+                                    future.data.toList()[index].task,
+                                    style: TextStyle(
+                                        backgroundColor: Colors.blueGrey,
+                                        color: Colors.black,
+                                        fontSize: 18.0
+                                    )
+                                );
+                              }
+                          );
+                        }
                       }
                   )
               )
