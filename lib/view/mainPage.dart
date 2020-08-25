@@ -8,10 +8,10 @@ import 'package:path/path.dart';
 // メインページ
 class MainPage extends StatelessWidget {
   int _currentIndex = 0;
+  String _test = "test";
   final _pageWidgets = [
     PageWidget(color:Colors.white, title:'Home'),
     PageWidget(color:Colors.blue, title:'Album'),
-    PageWidget(color:Colors.orange, title:'Chat'),
   ];
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,19 @@ class MainPage extends StatelessWidget {
                           return Center(child: CircularProgressIndicator());
                         }
                         return ListView.builder(
-//                  controller: listScrollController,
+//                            controller: listScrollController,
                             itemCount: future.data.length,
                             itemBuilder: (context, index) {
-                              return Text(future.data.toList()[index].task);
+//                              print("len:" + future.data.length.toString());
+//                              print("data:" + future.data[index].task);
+                              return Text(
+                                  future.data[index].task,
+                                  style: TextStyle(
+                                      backgroundColor: Colors.blueGrey,
+                                      color: Colors.orange,
+                                      fontSize: 18.0
+                                  )
+                              );
                             }
                         );
                       }
@@ -44,7 +53,6 @@ class MainPage extends StatelessWidget {
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
             BottomNavigationBarItem(icon: Icon(Icons.add), title: Text('Add')),
-//            BottomNavigationBarItem(icon: Icon(Icons.chat), title: Text('Chat')),
           ],
           currentIndex: _currentIndex,
           fixedColor: Colors.blueAccent,

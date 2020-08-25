@@ -12,16 +12,24 @@ class ApiCall {
     List<Work> tasks = [];
     http.get(_url).then((response) {
       statusCode = response.statusCode;
-      print(response.statusCode);
+//      print(response.statusCode);
 
       switch (response.statusCode) {
         case 200 :
-          print(response.body);
+//          print("resonseBody:"+response.body);
           List items = json.decode(response.body);
-          items.map<String>((value) {
-            tasks.add(Work.fromMap(value)
-            );
-          }).toList();
+          items.forEach((element) {
+//            print("element:" + element.toString());
+            String _id = element["id"].toString();
+            String _task = element["task"];
+            String _person = element["person"];
+            tasks.add(Work(
+              id: _id,
+              task: _task,
+              person : _person
+            ));
+          });
+
           break;
         default:
           break;
