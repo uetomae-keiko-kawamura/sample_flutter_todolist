@@ -11,7 +11,7 @@ class MainPage extends StatelessWidget {
   String _test = "test";
   final _pageWidgets = [
     PageWidget(color:Colors.white, title:'Home'),
-    PageWidget(color:Colors.blue, title:'Album'),
+    PageWidget(color:Colors.blue, title:'Add'),
   ];
   @override
   Widget build(BuildContext context) {
@@ -29,19 +29,19 @@ class MainPage extends StatelessWidget {
                           return Center(child: CircularProgressIndicator());
                         } else {
                           return ListView.builder(
+                              padding: const EdgeInsets.all(16.0),
 //                            controller: listScrollController,
                               itemCount: future.data.length,
                               itemBuilder: (context, index) {
-//                              print("len:" + future.data.length.toString());
-//                              print("data:" + future.data[index].task);
-                                return Text(
-                                    future.data.toList()[index].task,
-                                    style: TextStyle(
-                                        backgroundColor: Colors.blueGrey,
-                                        color: Colors.black,
-                                        fontSize: 18.0
-                                    )
-                                );
+                                return _listItem(future.data.toList()[index].task);
+//                                return Text(
+//                                    future.data.toList()[index].task,
+//                                    style: TextStyle(
+//                                        backgroundColor: Colors.yellow,
+//                                        color: Colors.black,
+//                                        fontSize: 18.0
+//                                    )
+//                                );
                               }
                           );
                         }
@@ -59,10 +59,40 @@ class MainPage extends StatelessWidget {
           fixedColor: Colors.blueAccent,
 //          onTap: _onItemTapped,
           type: BottomNavigationBarType.fixed,
+          // AddタップでsubPageへ
+          onTap: (int index) {
+            print("index" + index.toString());
+            if (index == 1) {
+              Navigator.of(context).pushNamed("/subpage");
+            }
+          },
         )
     );
   }
 //  void _onItemTapped(int index) => setState(() => _currentIndex = index );
+  // リストアイテム
+  Widget _listItem(String title) {
+    return Container(
+      decoration: new BoxDecoration(
+          border: new Border(bottom: BorderSide(width: 1.0, color: Colors.grey))
+      ),
+      child: ListTile(
+        title: Text(
+          title,
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 18.0
+          ),
+        ),
+        onTap: () {
+          print("onTap called.");
+        }, // タップ
+        onLongPress: () {
+          print("onLongTap called.");
+        }, // 長押し
+      ),
+    );
+  }
 }
 
 class PageWidget extends StatelessWidget {
@@ -85,4 +115,5 @@ class PageWidget extends StatelessWidget {
       ),
     );
   }
+
 }

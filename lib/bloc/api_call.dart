@@ -9,17 +9,14 @@ class ApiCall {
   ApiCall(){}
 
   Future<List<Work>> getWorks() async {
-    List<Work> tasks = [];
-    http.get(_url).then((response) {
+    return http.get(_url).then((response) {
+      List<Work> tasks = [];
       statusCode = response.statusCode;
-//      print(response.statusCode);
 
       switch (response.statusCode) {
         case 200 :
-//          print("resonseBody:"+response.body);
           List items = json.decode(response.body);
           items.forEach((element) {
-//            print("element:" + element.toString());
             String _id = element["id"].toString();
             String _task = element["task"];
             String _person = element["person"];
@@ -31,10 +28,11 @@ class ApiCall {
           });
 
           break;
+
         default:
           break;
       }
+      return tasks;
     });
-    return tasks;
   }
 }
