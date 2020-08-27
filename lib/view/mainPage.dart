@@ -33,23 +33,24 @@ class MainPage extends StatelessWidget {
 //                            controller: listScrollController,
                               itemCount: future.data.length,
                               itemBuilder: (context, index) {
-                                return _listItem(future.data.toList()[index].task);
-//                                return Text(
-//                                    future.data.toList()[index].task,
-//                                    style: TextStyle(
-//                                        backgroundColor: Colors.yellow,
-//                                        color: Colors.black,
-//                                        fontSize: 18.0
-//                                    )
-//                                );
+                                return _listItem(future.data.toList()[index].task, future.data[index].person);
                               }
                           );
                         }
                       }
-                  )
+                  ),
+
+              ),
+              FloatingActionButton(
+                backgroundColor: Colors.redAccent,
+                child: new Icon(Icons.add_circle),
+                onPressed: () {
+                  Navigator.of(context).pushNamed("/subpage");
+                },
               )
             ]
         ),
+ /*
         bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
@@ -67,16 +68,18 @@ class MainPage extends StatelessWidget {
             }
           },
         )
+*/
     );
   }
 //  void _onItemTapped(int index) => setState(() => _currentIndex = index );
   // リストアイテム
-  Widget _listItem(String title) {
+  Widget _listItem(String title, String subtitle) {
     return Container(
+      padding: const EdgeInsets.all(10.0),
       decoration: new BoxDecoration(
           border: new Border(bottom: BorderSide(width: 1.0, color: Colors.grey))
       ),
-      child: ListTile(
+      child: CheckboxListTile(
         title: Text(
           title,
           style: TextStyle(
@@ -84,12 +87,8 @@ class MainPage extends StatelessWidget {
               fontSize: 18.0
           ),
         ),
-        onTap: () {
-          print("onTap called.");
-        }, // タップ
-        onLongPress: () {
-          print("onLongTap called.");
-        }, // 長押し
+        subtitle: Text(subtitle),
+        activeColor: Colors.orange,
       ),
     );
   }
@@ -103,6 +102,7 @@ class PageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       color: color,
       child: Center(
