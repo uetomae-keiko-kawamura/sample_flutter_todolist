@@ -33,7 +33,8 @@ class MainPage extends StatelessWidget {
 //                            controller: listScrollController,
                               itemCount: future.data.length,
                               itemBuilder: (context, index) {
-                                return _listItem(future.data.toList()[index].task, future.data[index].person);
+                                List _list = future.data.toList();
+                                return _listItem(_list[index].task, _list[index].person);
                               }
                           );
                         }
@@ -41,12 +42,15 @@ class MainPage extends StatelessWidget {
                   ),
 
               ),
-              FloatingActionButton(
-                backgroundColor: Colors.redAccent,
-                child: new Icon(Icons.add_circle),
-                onPressed: () {
-                  Navigator.of(context).pushNamed("/subpage");
-                },
+              new Align(
+                alignment: new Alignment(0.0, 1.0),
+                child: FloatingActionButton(
+                  backgroundColor: Colors.redAccent,
+                  child: new Icon(Icons.add_circle),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("/subpage");
+                  },
+                )
               )
             ]
         ),
@@ -89,6 +93,7 @@ class MainPage extends StatelessWidget {
         ),
         subtitle: Text(subtitle),
         activeColor: Colors.orange,
+        tristate: true,
       ),
     );
   }

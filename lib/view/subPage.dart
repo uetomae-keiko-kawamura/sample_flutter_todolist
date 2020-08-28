@@ -11,6 +11,8 @@ enum Answers{
 class SubPage extends StatelessWidget {
   @override
   Work work = new Work();
+  // 入力欄からデータを取り出すためのストリームを設定
+  var _taskControler = TextEditingController();
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
@@ -30,8 +32,9 @@ class SubPage extends StatelessWidget {
                 style: TextStyle(color: Colors.blueGrey),
                 obscureText: false,
                 maxLines: 1,
+                controller: _taskControler,
                 onChanged: (task) {
-                  this.work.task = task;
+                  this.work.task = _taskControler.text;
                 },
               ),
               RaisedButton(onPressed: () => openDialog(context), child: new Text('保存'),),
@@ -50,7 +53,7 @@ class SubPage extends StatelessWidget {
     showDialog<Answers>(
       context: context,
       builder: (BuildContext context) => new SimpleDialog(
-        title: new Text("ここに内容を出したいがwork.taskを入れるとエラーになる"),
+        title: new Text(work.task),
         children: <Widget>[
           createDialogOption(context, Answers.YES, 'OK')
         ],

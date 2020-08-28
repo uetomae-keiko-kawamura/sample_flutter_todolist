@@ -46,7 +46,7 @@ class Work {
     return "- id:" + id + ',\n'
         + "- task:" + task + ",\n"
         + "- duedate:" + duedate.toString() + ",\n"
-        + "- person" + person.toString() + ",\n"
-        + "- end_flg" + end_flg.toString() + "\n";
+        + "- person:" + person.toString() + ",\n"
+        + "- end_flg:" + end_flg.toString() + "\n";
   }
 }
