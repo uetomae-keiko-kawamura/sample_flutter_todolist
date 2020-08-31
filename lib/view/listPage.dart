@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_todo/bloc/api_call.dart';
+import 'package:flutter_app_todo/bloc/work_bloc.dart';
 import 'package:flutter_app_todo/model/work.dart';
+import 'package:path/path.dart';
 
-// メインページ
-// APIを利用したリストページ
-class MainPage extends StatelessWidget {
+// SQliteを利用したリストのページ
+class ListPage extends StatelessWidget {
   int _currentIndex = 0;
   String _test = "test";
 
@@ -19,7 +20,7 @@ class MainPage extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: FutureBuilder<List<Work>>(
-                  future: ApiCall().getWorks(),
+                  future: WorkBloc.getWorks(),
                   builder: (context, future) {
                     if (!future.hasData) {
                       return Center(child: CircularProgressIndicator());
