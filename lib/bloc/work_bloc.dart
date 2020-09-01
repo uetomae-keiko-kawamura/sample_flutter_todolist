@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter_app_todo/bloc/api_call.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_app_todo/model/work.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_app_todo/model/work.dart';
 class WorkBloc {
 
   WorkBloc(){}
+  final ApiCall api = ApiCall();
 
   /**
    * 保存
@@ -53,7 +55,8 @@ class WorkBloc {
    * 取得（全件）
    */
   Future<List<Work>> getWorks() async {
-    return List.of([new Work(id: "1", task: "work"), new Work(id: "2", task: "二行目"), new Work(id: "3", task: "test")]);
+    return api.getWorks();
+//    return List.of([new Work(id: "1", task: "work"), new Work(id: "2", task: "二行目"), new Work(id: "3", task: "test")]);
 /*
     var database;
 
