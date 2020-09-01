@@ -1,0 +1,85 @@
+import 'dart:async';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:flutter_app_todo/model/work.dart';
+
+class DbAccess {
+
+  DbAccess();
+
+  // TODO: ローカルのSQLiteへの接続処理を書く
+  /**
+   * データベース接続
+   */
+  Future<Database> _connectDB () async{
+    final Future<Database> database = openDatabase(
+      join(await getDatabasesPath(), 'work_database.db'),
+      onCreate: (db, version) {
+        return db.execute(
+          "CREATE TABLE work(id INTEGER PRIMARY KEY, title TEXT)",
+        );
+      },
+      version: 1,
+    );
+  }
+
+  /**
+   * 保存
+   */
+  Future<void> insertWork(Work work) async {
+// Get a reference to the database.
+    final Database db = await _connectDB();
+    await db.insert(
+      'work',
+      work.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  /**
+   * 更新
+   */
+  Future<void> updateWork(Work work) async {
+// Get a reference to the database.
+    final Database db = await _connectDB();
+    await db.update(
+      'work',
+      work.toMap(),
+      where: "id = ?",
+      whereArgs: [work.id],
+      conflictAlgorithm: ConflictAlgorithm.fail,
+    );
+  }
+
+  /**
+   * 削除
+   */
+  Future<void> deleteWork(int id) async {
+// Get a reference to the database.
+    final Database db = await _connectDB();
+    await db.delete(
+      'work',
+      where: "id = ?",
+      whereArgs: [id],
+    );
+  }
+
+  /**
+   * 取得（全件）
+   */
+  Future<List<Work>> getWorks() async {
+// Get a reference to the database.
+    final Database db = await _connectDB();
+    // 全件取得
+    final List<Map<String, dynamic>> maps = await db.query('work');
+
+    // 実行結果をmapにつめる
+    return List.generate(maps.length, (i) {
+      return Work(
+        id: maps[i]['id'],
+        task: maps[i]['task'],
+      );
+    });
+  }
+
+}
