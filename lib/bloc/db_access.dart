@@ -12,15 +12,19 @@ class DbAccess {
    * データベース接続
    */
   Future<Database> _connectDB () async{
-    final Future<Database> database = openDatabase(
-      join(await getDatabasesPath(), 'work_database.db'),
-      onCreate: (db, version) {
-        return db.execute(
-          "CREATE TABLE work(id INTEGER PRIMARY KEY, title TEXT)",
-        );
-      },
-      version: 1,
-    );
+    try {
+      final Future<Database> database = openDatabase(
+        join(await getDatabasesPath(), 'work_database.db'),
+        onCreate: (db, version) {
+          return db.execute(
+            "CREATE TABLE work(id INTEGER PRIMARY KEY, title TEXT)",
+          );
+        },
+        version: 1,
+      );
+    } catch (e) {
+      print (e);
+    }
   }
 
   /**
@@ -69,17 +73,21 @@ class DbAccess {
    */
   Future<List<Work>> getWorks() async {
 // Get a reference to the database.
-    final Database db = await _connectDB();
-    // 全件取得
-    final List<Map<String, dynamic>> maps = await db.query('work');
+    try {
+      final Database db = await _connectDB();
+      // 全件取得
+      final List<Map<String, dynamic>> maps = await db.query('work');
 
-    // 実行結果をmapにつめる
-    return List.generate(maps.length, (i) {
-      return Work(
-        id: maps[i]['id'],
-        task: maps[i]['task'],
-      );
-    });
+      // 実行結果をmapにつめる
+      return List.generate(maps.length, (i) {
+        return Work(
+          id: maps[i]['id'],
+          task: maps[i]['task'],
+        );
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
 }

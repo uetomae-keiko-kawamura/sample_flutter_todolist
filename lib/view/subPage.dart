@@ -9,12 +9,15 @@ enum Answers{
 
 // サブページ
 class SubPage extends StatelessWidget {
-  @override
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
   Work work = new Work();
+
+  @override
   // 入力欄からデータを取り出すためのストリームを設定
   var _taskControler = TextEditingController();
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
         title: new Text('ToDo'),
       ),
@@ -50,24 +53,38 @@ class SubPage extends StatelessWidget {
 
 // ダイアログ表示
   void openDialog(BuildContext context) {
-    showDialog<Answers>(
-      context: context,
-      builder: (BuildContext context) => new SimpleDialog(
-        title: new Text(work.task),
-        children: <Widget>[
-          createDialogOption(context, Answers.YES, 'OK')
-        ],
-      ),
-    ).then((value) {
-      switch(value) {
-        case Answers.YES:
+    if (work.task == null || work.task.length == 0) {
+      _scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            content: const Text('内容を入力してください。'),
+            duration: const Duration(seconds: 5),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () {},
+            ),
+        )
+      );
+    } else {
+      showDialog<Answers>(
+        context: context,
+        builder: (BuildContext context) =>
+        new SimpleDialog(
+          title: new Text(work.task),
+          children: <Widget>[
+            createDialogOption(context, Answers.YES, 'OK')
+          ],
+        ),
+      ).then((value) {
+        switch (value) {
+          case Answers.YES:
 //          _setValue('Yes');
-          break;
-        case Answers.NO:
+            break;
+          case Answers.NO:
 //          _setValue('No');
-          break;
-      }
-    });
+            break;
+        }
+      });
+    }
   }
 
 
