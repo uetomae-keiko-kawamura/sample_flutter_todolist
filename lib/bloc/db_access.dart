@@ -12,16 +12,19 @@ class DbAccess {
    * データベース接続
    */
   Future<Database> _connectDB () async{
+
     try {
       final Future<Database> database = openDatabase(
         join(await getDatabasesPath(), 'work_database.db'),
         onCreate: (db, version) {
           return db.execute(
-            "CREATE TABLE work(id INTEGER PRIMARY KEY, title TEXT)",
+            "CREATE TABLE work(id INTEGER PRIMARY KEY AUTOINCREMENT, task TEXT, duedate TEXT, person TEXT, end_flg TEXT)",
           );
         },
         version: 1,
       );
+      return database;
+
     } catch (e) {
       print (e);
     }
@@ -32,12 +35,17 @@ class DbAccess {
    */
   Future<void> insertWork(Work work) async {
 // Get a reference to the database.
-    final Database db = await _connectDB();
-    await db.insert(
-      'work',
-      work.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    try {
+      final Database db = await _connectDB();
+      await db.insert(
+        'work',
+        work.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    } catch (e) {
+      print("db_access.insertWork\n");
+      print(e);
+    }
   }
 
   /**
@@ -83,6 +91,9 @@ class DbAccess {
         return Work(
           id: maps[i]['id'],
           task: maps[i]['task'],
+          duedate: maps[i]['duedate'],
+          person: maps[i]['person'],
+          end_flg: maps[i]['end_flg']
         );
       });
     } catch (e) {

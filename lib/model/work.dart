@@ -3,7 +3,7 @@ class Work {
   /**
    * field
    */
-  String id;           // id
+  int id;           // id
   String task;      // タスク
   DateTime duedate; // 期日
   String person;    // 登録者
@@ -19,9 +19,9 @@ class Work {
    */
   Map<String, dynamic> toMap() =>{
     "id" : id,
-    "title" : task,
-    "date" : duedate,
-    "progress" : person,
+    "task" : task,
+    "duedate" : duedate,
+    "person" : person,
     "end_flg" : end_flg
   };
 
@@ -43,10 +43,10 @@ class Work {
 
   @override
   String toString() {
-    return "- id:" + id + ',\n'
+    return "- id:" + id.toString() + ',\n'
         + "- task:" + task + ",\n"
         + "- duedate:" + duedate.toString() + ",\n"
-        + "- person:" + person.toString() + ",\n"
+        + "- person:" + person + ",\n"
         + "- end_flg:" + end_flg.toString() + "\n";
   }
 }

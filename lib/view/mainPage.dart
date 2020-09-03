@@ -20,7 +20,7 @@ class MainPage extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: FutureBuilder<List<Work>>(
-                  future: WorkBloc().getWorks(),
+                  future: WorkBloc().getWorks(From.db),
                   builder: (context, future) {
                     if (!future.hasData) {
                       return Center(child: CircularProgressIndicator());

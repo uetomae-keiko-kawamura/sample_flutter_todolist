@@ -17,11 +17,11 @@ class ApiCall {
         case 200 :
           List items = json.decode(response.body);
           items.forEach((element) {
-            String _id = element["id"].toString();
+            String _id = element["id"];
             String _task = element["task"];
             String _person = element["person"];
             tasks.add(Work(
-              id: _id,
+              id: int.parse(_id),
               task: _task,
               person : _person
             ));

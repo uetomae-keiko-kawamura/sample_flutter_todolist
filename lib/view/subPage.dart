@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_todo/model/work.dart';
+import 'package:flutter_app_todo/bloc/work_bloc.dart';
 
 enum Answers{
   YES,
@@ -50,6 +51,11 @@ class SubPage extends StatelessWidget {
 
 //  String _value = '';
 
+  // タスク保存
+  void saveWork(BuildContext context) async{
+    await WorkBloc().insertWork(From.db,work);
+    Navigator.of(context).pop();
+  }
 
 // ダイアログ表示
   void openDialog(BuildContext context) {
@@ -60,7 +66,8 @@ class SubPage extends StatelessWidget {
             duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'OK',
-              onPressed: () {},
+              onPressed: () {
+              },
             ),
         )
       );
@@ -77,6 +84,7 @@ class SubPage extends StatelessWidget {
       ).then((value) {
         switch (value) {
           case Answers.YES:
+            saveWork(context);
 //          _setValue('Yes');
             break;
           case Answers.NO:
