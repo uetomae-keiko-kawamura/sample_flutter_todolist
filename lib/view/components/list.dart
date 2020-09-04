@@ -7,7 +7,11 @@ class ListItem extends StatefulWidget {
 
   ListItem(String title, String subtitle) {
     _title = title;
-    _subtitle = subtitle;
+    if (subtitle != null ) {
+      _subtitle = subtitle;
+    } else {
+      _subtitle = "";
+    }
   }
 
   @override

@@ -18,7 +18,12 @@ class DbAccess {
         join(await getDatabasesPath(), 'work_database.db'),
         onCreate: (db, version) {
           return db.execute(
-            "CREATE TABLE work(id INTEGER PRIMARY KEY AUTOINCREMENT, task TEXT, duedate TEXT, person TEXT, end_flg TEXT)",
+            "CREATE TABLE work ("
+                "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                "task TEXT,"
+                "duedate TEXT,"
+                "person TEXT,"
+                "end_flg TEXT)",
           );
         },
         version: 1,

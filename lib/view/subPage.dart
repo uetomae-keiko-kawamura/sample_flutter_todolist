@@ -16,6 +16,7 @@ class SubPage extends StatelessWidget {
   @override
   // 入力欄からデータを取り出すためのストリームを設定
   var _taskControler = TextEditingController();
+  var _personControler = TextEditingController(text:"自分");
   Widget build(BuildContext context) {
     return new Scaffold(
       key: _scaffoldKey,
@@ -39,6 +40,19 @@ class SubPage extends StatelessWidget {
                 controller: _taskControler,
                 onChanged: (task) {
                   this.work.task = _taskControler.text;
+                },
+              ),
+              Text("やる人"),
+              new TextField(
+                enabled: true,
+                maxLength: 80,
+                maxLengthEnforced: false,
+                style: TextStyle(color: Colors.blueGrey),
+                obscureText: false,
+                maxLines: 1,
+                controller: _personControler,
+                onChanged: (person) {
+                  this.work.person = _personControler.text;
                 },
               ),
               RaisedButton(onPressed: () => openDialog(context), child: new Text('保存'),),
