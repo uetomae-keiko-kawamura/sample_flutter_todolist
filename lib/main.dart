@@ -8,8 +8,9 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // 値はどこにおく？
-  final work = new Work();
+
+  // ルートオブザーバー
+  final RouteObserver<PageRoute> routeObserver = new RouteObserver<PageRoute>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,8 @@ class MyApp extends StatelessWidget {
         '/home' : (BuildContext context) => new MainPage(),
         '/subpage' : (BuildContext context) => new SubPage()
       },
+      // ルートオブザーバー
+      navigatorObservers: <NavigatorObserver>[routeObserver],
     );
   }
 }
