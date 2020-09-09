@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_todo/bloc/work_bloc.dart';
 import 'package:flutter_app_todo/view/mainPage.dart';
 import 'package:flutter_app_todo/view/subPage.dart';
-import 'package:flutter_app_todo/model/work.dart';
 import 'package:flutter_app_todo/view/components/common.dart';
 
 void main() {
