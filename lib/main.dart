@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_todo/bloc/work_bloc.dart';
 import 'package:flutter_app_todo/view/mainPage.dart';
 import 'package:flutter_app_todo/view/subPage.dart';
 import 'package:flutter_app_todo/model/work.dart';
+import 'package:flutter_app_todo/view/components/common.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // 値はどこにおく？
-  final work = new Work();
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,11 +21,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.amber,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MainPage(),
+      home: MainPage(From.db),
       // 画面遷移を設定
-      routes: <String, WidgetBuilder> {
-        '/home' : (BuildContext context) => new MainPage(),
-        '/subpage' : (BuildContext context) => new SubPage()
+      routes: <String, WidgetBuilder>{
+        '/home': (BuildContext context) => new MainPage(From.db),
+        '/subpage': (BuildContext context) => new SubPage()
       },
     );
   }

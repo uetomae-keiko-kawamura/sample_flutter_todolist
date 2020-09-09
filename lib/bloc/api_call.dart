@@ -4,27 +4,24 @@ import 'dart:convert';
 
 class ApiCall {
   int statusCode;
-  String _url = "https://zkcisny52m.execute-api.ap-northeast-1.amazonaws.com/prod/api/todo/list";
+  String _url =
+      "https://zkcisny52m.execute-api.ap-northeast-1.amazonaws.com/prod/api/todo/list";
 
-  ApiCall(){}
+  ApiCall() {}
 
-  Future<List<Work>> getWorks() async {
+  Future<List<Work>> getWorksAll() async {
     return http.get(_url).then((response) {
       List<Work> tasks = [];
       statusCode = response.statusCode;
 
       switch (response.statusCode) {
-        case 200 :
+        case 200:
           List items = json.decode(response.body);
           items.forEach((element) {
             String _id = element["id"];
             String _task = element["task"];
             String _person = element["person"];
-            tasks.add(Work(
-              id: int.parse(_id),
-              task: _task,
-              person : _person
-            ));
+            tasks.add(Work(id: int.parse(_id), task: _task, person: _person));
           });
 
           break;

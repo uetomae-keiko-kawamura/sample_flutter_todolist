@@ -1,66 +1,29 @@
-import 'dart:async';
-import 'package:flutter_app_todo/bloc/api_call.dart';
-import 'package:flutter_app_todo/bloc/db_access.dart';
-import 'package:flutter_app_todo/model/work.dart';
+import 'package:flutter_app_todo/view/components/common.dart';
+import 'package:rxdart/rxdart.dart';
 
-enum From {
-  api,
-  db
-}
+import 'dart:async';
+import 'package:flutter_app_todo/model/work.dart';
+import 'package:flutter_app_todo/bloc/work_access.dart';
 
 class WorkBloc {
+  WorkBloc();
 
-  final ApiCall api = ApiCall();
-  final DbAccess db = DbAccess();
+  // Stream設定
+  final _dbItemsController = BehaviorSubject<List<Work>>.seeded(null);
+  Sink<List<Work>> get dbItemsSink => _dbItemsController.sink;
+  Stream<List<Work>> get dbItems => _dbItemsController.stream;
 
-  WorkBloc(){}
+  dispose() {
+    _dbItemsController.close();
+  }
 
   /**
-   * 保存
+   * Stream更新
    */
-  Future<void> insertWork(From value,Work work) async {
-
+  void refresh(From value) async {
     switch (value) {
-      case From.api :
-        break;
-
-      case From.db :
-        db.insertWork(work);
-        break;
-
-      default:
-        break;
+      case From.db:
+        dbItemsSink.add(await WorkAccess().getWorksAll(value));
     }
-  }
-
-
-  /**
-   * 更新
-   */
-  Future<void> updateWork(Work work) async {
-  }
-
-  /**
-   * 削除
-   */
-  Future<void> deleteWork(int id) async {
-  }
-
-  /**
-   * 取得（全件）
-   */
-  Future<List<Work>> getWorks(From value) async {
-    switch (value) {
-      case From.api :
-        return api.getWorks();
-        break;
-      case From.db :
-        return db.getWorks();
-        break;
-      default:
-        return db.getWorks();
-    }
-    //return api.getWorks();
-    //return List.of([new Work(id: "1", task: "work"), new Work(id: "2", task: "二行目"), new Work(id: "3", task: "test")]);
   }
 }

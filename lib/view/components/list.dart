@@ -7,7 +7,7 @@ class ListItem extends StatefulWidget {
 
   ListItem(String title, String subtitle) {
     _title = title;
-    if (subtitle != null ) {
+    if (subtitle != null) {
       _subtitle = subtitle;
     } else {
       _subtitle = "";
@@ -19,22 +19,18 @@ class ListItem extends StatefulWidget {
 }
 
 class _ListItemState extends State<ListItem> {
-
   bool _check = false;
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10.0),
       decoration: new BoxDecoration(
-          border: new Border(bottom: BorderSide(width: 1.0, color: Colors.grey))
-      ),
+          border:
+              new Border(bottom: BorderSide(width: 1.0, color: Colors.grey))),
       child: CheckboxListTile(
           title: Text(
             widget._title,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 18.0
-            ),
+            style: TextStyle(color: Colors.black, fontSize: 18.0),
           ),
           subtitle: Text(widget._subtitle),
           activeColor: Colors.orange,
@@ -44,8 +40,7 @@ class _ListItemState extends State<ListItem> {
               _check = val;
               print(val);
             });
-          }
-      ),
+          }),
     );
   }
 }

@@ -4,7 +4,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter_app_todo/model/memo.dart';
 
 class MemoBloc {
-
   memo_bloc() {}
 
   /**
@@ -87,12 +86,11 @@ class MemoBloc {
   /**
    * データベーステスト
    */
-  Future<List<Memo>> testDB () async{
-
+  Future<List<Memo>> testDB() async {
     // メモ
     final Future<Database> database = openDatabase(
-          join(await getDatabasesPath(), 'memo_database.db'),
-          onCreate: (db, version) {
+      join(await getDatabasesPath(), 'memo_database.db'),
+      onCreate: (db, version) {
         return db.execute(
           "CREATE TABLE memo(id INTEGER PRIMARY KEY, text TEXT, priority INTEGER)",
         );

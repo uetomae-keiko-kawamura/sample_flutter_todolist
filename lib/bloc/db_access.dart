@@ -4,34 +4,31 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter_app_todo/model/work.dart';
 
 class DbAccess {
-
   DbAccess();
 
   // TODO: ローカルのSQLiteへの接続処理を書く
   /**
    * データベース接続
    */
-  Future<Database> _connectDB () async{
-
+  Future<Database> _connectDB() async {
     try {
       final Future<Database> database = openDatabase(
         join(await getDatabasesPath(), 'work_database.db'),
         onCreate: (db, version) {
           return db.execute(
             "CREATE TABLE work ("
-                "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                "task TEXT,"
-                "duedate TEXT,"
-                "person TEXT,"
-                "end_flg TEXT)",
+            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "task TEXT,"
+            "duedate TEXT,"
+            "person TEXT,"
+            "end_flg TEXT)",
           );
         },
         version: 1,
       );
       return database;
-
     } catch (e) {
-      print (e);
+      print(e);
     }
   }
 
@@ -84,7 +81,7 @@ class DbAccess {
   /**
    * 取得（全件）
    */
-  Future<List<Work>> getWorks() async {
+  Future<List<Work>> getWorksAll() async {
 // Get a reference to the database.
     try {
       final Database db = await _connectDB();
@@ -94,16 +91,14 @@ class DbAccess {
       // 実行結果をmapにつめる
       return List.generate(maps.length, (i) {
         return Work(
-          id: maps[i]['id'],
-          task: maps[i]['task'],
-          duedate: maps[i]['duedate'],
-          person: maps[i]['person'],
-          end_flg: maps[i]['end_flg']
-        );
+            id: maps[i]['id'],
+            task: maps[i]['task'],
+            duedate: maps[i]['duedate'],
+            person: maps[i]['person'],
+            end_flg: maps[i]['end_flg']);
       });
     } catch (e) {
       print(e);
     }
   }
-
 }
