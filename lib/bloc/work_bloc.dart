@@ -7,7 +7,6 @@ import 'package:flutter_app_todo/model/work.dart';
 import 'package:flutter_app_todo/view/components/constants.dart';
 
 class WorkBloc {
-  From _from;
   final ApiCall api = ApiCall();
   final DbAccess db = DbAccess();
 
@@ -16,9 +15,7 @@ class WorkBloc {
   Sink<List<Work>> get worksSink => _worksController.sink;
   Stream<List<Work>> get works => _worksController.stream;
 
-  WorkBloc(From value) {
-    _from = value;
-  }
+  WorkBloc();
 
   dispose() {
     _worksController.close();
@@ -38,20 +35,9 @@ class WorkBloc {
    */
   void insertWork(Work work) async {
     try {
-      switch (_from) {
-        case From.api:
-          api.insertWork(work);
-          worksSink.add(await api.getWorksAll());
-          break;
-
-        case From.db:
-          db.insertWork(work);
-          worksSink.add(await db.getWorksAll());
-          break;
-
-        default:
-          break;
-      }
+      api.insertWork(work);
+      db.insertWork(work);
+      worksSink.add(await api.getWorksAll());
     } catch (e) {
       print(e);
       db.insertWork(work);
@@ -64,20 +50,9 @@ class WorkBloc {
    */
   void updateWork(Work work) async {
     try {
-      switch (_from) {
-        case From.api:
-          api.updateWork(work);
-          worksSink.add(await api.getWorksAll());
-          break;
-
-        case From.db:
-          db.updateWork(work);
-          worksSink.add(await db.getWorksAll());
-          break;
-
-        default:
-          break;
-      }
+      api.updateWork(work);
+      db.updateWork(work);
+      worksSink.add(await api.getWorksAll());
     } catch (e) {
       print(e);
       db.updateWork(work);
@@ -88,21 +63,11 @@ class WorkBloc {
   /**
    * 削除
    */
-  Future<void> deleteWork(int id) async {
+  void deleteWork(int id) async {
     try {
-      switch (_from) {
-        case From.api:
-          worksSink.add(await api.getWorksAll());
-          break;
-
-        case From.db:
-          db.deleteWork(id);
-          worksSink.add(await db.getWorksAll());
-          break;
-
-        default:
-          break;
-      }
+      api.deleteWork(id);
+      db.deleteWork(id);
+      worksSink.add(await api.getWorksAll());
     } catch (e) {
       print(e);
       db.deleteWork(id);
@@ -120,16 +85,7 @@ class WorkBloc {
    */
   void getWorksAll() async {
     try {
-      switch (_from) {
-        case From.api:
-          worksSink.add(await api.getWorksAll());
-          break;
-        case From.db:
-          worksSink.add(await db.getWorksAll());
-          break;
-        default:
-          break;
-      }
+      worksSink.add(await api.getWorksAll());
     } catch (e) {
       print(e);
       worksSink.add(await db.getWorksAll());
