@@ -38,7 +38,6 @@ class _ListItemState extends State<ListItem> {
           onChanged: (bool val) {
             setState(() {
               _check = val;
-              print(val);
             });
           }),
     );

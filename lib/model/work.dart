@@ -4,7 +4,7 @@ class Work {
    */
   int id; // id
   String task; // タスク
-  DateTime duedate; // 期日
+  String duedate; // 期日
   String person; // 登録者
   bool end_flg;
 

@@ -1,18 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_todo/bloc/work_access.dart';
-import 'package:flutter_app_todo/model/work.dart';
 import 'package:flutter_app_todo/bloc/work_bloc.dart';
-import 'package:flutter_app_todo/view/components/common.dart';
+import 'package:flutter_app_todo/model/work.dart';
+import 'package:flutter_app_todo/view/components/constants.dart';
 
 // サブページ
 class SubPage extends StatelessWidget {
   var _scaffoldKey = GlobalKey<ScaffoldState>();
-  Work work = new Work();
+
+  WorkBloc bloc;
+  Work work;
 
   // 入力欄からデータを取り出すためのストリームを設定
   var _taskControler = TextEditingController();
-  var _personControler = TextEditingController(text: "自分");
+  var _personControler = TextEditingController();
+
+  SubPage(WorkBloc bloc) {
+    this.bloc = bloc;
+    this.work = new Work();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +79,8 @@ class SubPage extends StatelessWidget {
 
   // タスク保存
   void saveWork(BuildContext context) async {
-    await WorkAccess().insertWork(From.db, this.work);
-    WorkBloc().refresh(From.db);
+    this.work.id = DateTime.now().millisecondsSinceEpoch;
+    bloc.insertWork(this.work);
     Navigator.of(context).pop();
   }
 
@@ -89,21 +95,28 @@ class SubPage extends StatelessWidget {
           onPressed: () {},
         ),
       ));
+    } else if (work.person == null || work.person.length == 0) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: const Text('やる人を入力してください。'),
+        duration: const Duration(seconds: 5),
+        action: SnackBarAction(
+          label: 'OK',
+          onPressed: () {},
+        ),
+      ));
     } else {
       showDialog<Answers>(
         context: context,
         builder: (BuildContext context) => new SimpleDialog(
-          title: new Text(work.task),
+          title: new Text(work.task + "\n" + work.person),
           children: <Widget>[createDialogOption(context, Answers.YES, 'OK')],
         ),
       ).then((value) {
         switch (value) {
           case Answers.YES:
             saveWork(context);
-//          _setValue('Yes');
             break;
           case Answers.NO:
-//          _setValue('No');
             break;
         }
       });

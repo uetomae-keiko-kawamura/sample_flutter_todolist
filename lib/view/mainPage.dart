@@ -2,16 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_todo/bloc/work_bloc.dart';
 import 'package:flutter_app_todo/model/work.dart';
+import 'package:flutter_app_todo/view/subPage.dart';
 import 'package:flutter_app_todo/view/components/list.dart';
-import 'package:flutter_app_todo/view/components/common.dart';
+import 'package:flutter_app_todo/view/components/constants.dart';
 
 // メインページ
 class MainPage extends StatelessWidget {
-  WorkBloc workBloc = new WorkBloc();
-
-  MainPage(From value) {
-    workBloc.refresh(value);
-  }
+  final WorkBloc workBloc = new WorkBloc(From.db);
 
   dispose() {
     workBloc.dispose();
@@ -19,6 +16,7 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    workBloc.getWorksAll();
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('ToDo List'),
@@ -26,7 +24,7 @@ class MainPage extends StatelessWidget {
       body: Column(children: <Widget>[
         Expanded(
           child: StreamBuilder<List<Work>>(
-              stream: workBloc.dbItems,
+              stream: workBloc.works,
               builder:
                   (BuildContext context, AsyncSnapshot<List<Work>> snapshot) {
                 if (!snapshot.hasData) {
@@ -35,7 +33,6 @@ class MainPage extends StatelessWidget {
                   List<Work> _list = snapshot.data.toList();
                   return ListView.builder(
                       padding: const EdgeInsets.all(16.0),
-//                            controller: listScrollController,
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
                         return ListItem(_list[index].task, _list[index].person);
@@ -51,30 +48,13 @@ class MainPage extends StatelessWidget {
                   backgroundColor: Colors.orangeAccent,
                   child: new Icon(Icons.add),
                   onPressed: () {
-                    Navigator.of(context).pushNamed("/subpage");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SubPage(workBloc)));
                   },
                 )))
       ]),
     );
   }
-//  void _onItemTapped(int index) => setState(() => _currentIndex = index );
 }
-
-// class PageWidget extends StatelessWidget {
-//   final Color color;
-//   final String title;
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       color: color,
-//       child: Center(
-//         child: Text(
-//           title,
-//           style: TextStyle(
-//             fontSize: 25,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
