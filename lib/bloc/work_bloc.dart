@@ -37,11 +37,11 @@ class WorkBloc {
     try {
       api.insertWork(work);
       db.insertWork(work);
-      worksSink.add(await api.getWorksAll());
+      getWorksAll();
     } catch (e) {
       print(e);
       db.insertWork(work);
-      worksSink.add(await db.getWorksAll());
+      getWorksAll();
     }
   }
 
@@ -52,11 +52,11 @@ class WorkBloc {
     try {
       api.updateWork(work);
       db.updateWork(work);
-      worksSink.add(await api.getWorksAll());
+      getWorksAll();
     } catch (e) {
       print(e);
       db.updateWork(work);
-      worksSink.add(await db.getWorksAll());
+      getWorksAll();
     }
   }
 
@@ -67,11 +67,11 @@ class WorkBloc {
     try {
       api.deleteWork(id);
       db.deleteWork(id);
-      worksSink.add(await api.getWorksAll());
+      getWorksAll();
     } catch (e) {
       print(e);
       db.deleteWork(id);
-      worksSink.add(await db.getWorksAll());
+      getWorksAll();
     }
   }
 
@@ -85,7 +85,9 @@ class WorkBloc {
    */
   void getWorksAll() async {
     try {
-      worksSink.add(await api.getWorksAll());
+// API未実装のためDB接続へいったん変更
+//       worksSink.add(await api.getWorksAll());
+      worksSink.add(await db.getWorksAll());
     } catch (e) {
       print(e);
       worksSink.add(await db.getWorksAll());

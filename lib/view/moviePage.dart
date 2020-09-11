@@ -11,7 +11,8 @@ class MoviePage extends StatelessWidget {
       body: Center(
           child: Container(
             child: MoviePlayerWidget(
-              "http://egaoinc.xsrv.jp/egao-blog/movie/sample-movie.mp4",
+              "https://aws-rtmp.s3-ap-northeast-1.amazonaws.com/VD00001.mp4",
+              // ストリーミング再生にする場合は変換が必要
             ),
           )
       ),
