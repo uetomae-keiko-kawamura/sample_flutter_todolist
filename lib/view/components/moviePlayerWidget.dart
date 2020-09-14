@@ -20,6 +20,7 @@ class _MoviePlayerWidgetState extends State<MoviePlayerWidget> {
   // コントローラー
   VideoPlayerController _controller;
   VoidCallback _listener;
+  // 最後まで再生済み
   bool _isPlayComplete = false;
 
   @override
@@ -74,7 +75,7 @@ class _MoviePlayerWidgetState extends State<MoviePlayerWidget> {
                       }),
                       child: Center(
                         child: Icon(
-                          Icons.play_circle_outline,
+                          Icons.replay,
                           color: Colors.white,
                           size: 50.0,
                         ),
@@ -84,6 +85,12 @@ class _MoviePlayerWidgetState extends State<MoviePlayerWidget> {
             ],
           ),
         ),
+        // インジゲーター
+        VideoProgressIndicator(
+          _controller,
+          allowScrubbing: true,
+        ),
+        // 操作ボタン
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -113,9 +120,7 @@ class _MoviePlayerWidgetState extends State<MoviePlayerWidget> {
               onPressed: () {
                 // 動画を一時停止
                 _controller.pause();
-                setState(() {
-                  _isPlayComplete = true;
-                });
+                _isPlayComplete = false;
               },
               icon: Icon(Icons.pause),
             ),
