@@ -1,109 +1,92 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_todo/bloc/work_bloc.dart';
-import 'package:flutter_app_todo/model/work.dart';
 import 'package:flutter_app_todo/view/moviePage.dart';
-import 'package:flutter_app_todo/view/subPage.dart';
-import 'package:flutter_app_todo/view/components/list.dart';
-import 'package:flutter_app_todo/view/components/constants.dart';
+import 'package:flutter_app_todo/view/todoListPage.dart';
 
-// メインページ
-class MainPage extends StatelessWidget {
-  final WorkBloc workBloc = new WorkBloc();
+// HOME
+class MainPage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
 
-  dispose() {
-    workBloc.dispose();
+class _MyHomePageState extends State<MainPage>
+    with SingleTickerProviderStateMixin {
+  // ページ切り替え用のコントローラを定義
+  PageController _pageController;
+
+  // ページインデックス保存用
+  int _screen = 0;
+
+  // ページ下部に並べるナビゲーションメニューの一覧
+  List<BottomNavigationBarItem> myBottomNavBarItems() {
+    return [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        title: const Text('Home'),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.movie),
+        title: const Text('Movie'),
+      ),
+    ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // コントローラ作成
+    _pageController = PageController(
+      initialPage: _screen, // 初期ページの指定。上記で_screenを１とすれば２番目のページが初期表示される。
+    );
+  }
+
+  @override
+  void dispose() {
+    // コントローラ破棄
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    workBloc.getWorksAll();
-    return new Scaffold(
-      appBar: new AppBar(
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
+    return Scaffold(
+      // ページビュー
+      body: PageView(
+          controller: _pageController,
+          // ページ切り替え時に実行する処理
+          // PageViewのonPageChangedはページインデックスを受け取る
+          // 以下ではページインデックスをindexとする
+          onPageChanged: (index) {
+            setState(() {
+              // ページインデックスを更新
+              _screen = index;
+            });
           },
-        ),
-        title: new Text('ToDo List'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.save_alt,
-              color: Colors.black,
-// TODO onPressedに更新を実装
-            ),
-          ),
-        ],
+          // ページ下部のナビゲーションメニューに相当する各ページビュー。後述
+          children: [
+            TodoListPage(),
+            MoviePage(),
+          ]),
+      // ページ下部のナビゲーションメニュー
+      bottomNavigationBar: BottomNavigationBar(
+        // 現在のページインデックス
+        currentIndex: _screen,
+        // onTapでナビゲーションメニューがタップされた時の処理を定義
+        onTap: (index) {
+          setState(() {
+            // ページインデックスを更新
+            _screen = index;
+
+            // ページ遷移を定義。
+            // curveで指定できるのは以下
+            // https://api.flutter.dev/flutter/animation/Curves-class.html
+            _pageController.animateToPage(index,
+                duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+          });
+        },
+        // 定義済のナビゲーションメニューのアイテムリスト
+        items: myBottomNavBarItems(),
       ),
-      drawer: Drawer(
-          child: ListView(
-            children: <Widget>[
-              Container(
-                height: 65.0,
-                child: DrawerHeader(
-                  child: Text(
-                    "MENU",
-                    style: TextStyle(color: Colors.black, fontSize: 18.0),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.amber,
-                  ),
-                ),
-              ),
-              ListTile(
-                title: Text(
-                  "動画再生テスト",
-                  style: TextStyle(color: Colors.black, fontSize: 18.0),
-                ),
-                trailing: Icon(Icons.movie),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MoviePage()));
-            },
-          ),
-        ],
-      )),
-      body: Column(children: <Widget>[
-        Expanded(
-          child: StreamBuilder<List<Work>>(
-              stream: workBloc.works,
-              builder:
-                  (BuildContext context, AsyncSnapshot<List<Work>> snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
-                } else {
-                  List<Work> _list = snapshot.data.toList();
-                  return ListView.builder(
-                      padding: const EdgeInsets.all(16.0),
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) {
-                        return ListItem(_list[index].task, _list[index].person);
-                      });
-                }
-              }),
-        ),
-        new Align(
-            alignment: Alignment.bottomRight,
-            child: Container(
-                padding: EdgeInsets.all(20.0),
-                child: FloatingActionButton(
-                  backgroundColor: Colors.orangeAccent,
-                  child: new Icon(Icons.add),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SubPage(workBloc)));
-                  },
-                )))
-      ]),
     );
   }
 }
