@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_todo/view/components/moviePlayerWidget.dart';
 
 class MoviePage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,9 +12,8 @@ class MoviePage extends StatelessWidget {
       body: Center(
           child: Container(
             child: MoviePlayerWidget(
-              // "https://aws-rtmp.s3-ap-northeast-1.amazonaws.com/VD00001.mp4",
-              "https://aws-rtmp.s3-ap-northeast-1.amazonaws.com/hls/GlacierExpress-45569.m3u8",
-              // ストリーミング再生にする場合は変換が必要
+              // "https://aws-rtmp.s3-ap-northeast-1.amazonaws.com/kitchn.mp4"      // 通常再生
+              "https://aws-rtmp.s3-ap-northeast-1.amazonaws.com/kitchn/kitchn.m3u8" // ストリーミング再生
             ),
           )
       ),
