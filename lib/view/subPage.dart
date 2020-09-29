@@ -122,7 +122,6 @@ class SubPage extends StatelessWidget {
       });
     }
   }
-
   createDialogOption(BuildContext context, Answers answer, String str) {
     return new SimpleDialogOption(
       child: new Text(str),

@@ -33,6 +33,9 @@ class TodoListPage extends StatelessWidget {
             color: Colors.black,
 // TODO onPressedに更新を実装
           ),
+          onPressed: (){
+            print("onpressed");
+          },
         ),
       ],
     );
@@ -53,7 +56,7 @@ class TodoListPage extends StatelessWidget {
                     padding: const EdgeInsets.all(16.0),
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
-                      return ListItem(_list[index].task, _list[index].person);
+                      return ListItem(_list[index]);
                     });
               }
             }),

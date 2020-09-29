@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_todo/model/work.dart';
 
 // リストアイテム
 class ListItem extends StatefulWidget {
   String _title = "";
   String _subtitle = "";
+  int _id = -1;
 
-  ListItem(String title, String subtitle) {
-    _title = title;
-    if (subtitle != null) {
-      _subtitle = subtitle;
+  ListItem(Work work) {
+    _title = work.task;
+    if (work.person != null) {
+      _subtitle = work.person;
     } else {
       _subtitle = "";
     }
+    _id = work.id;
   }
 
   @override
@@ -39,6 +42,9 @@ class _ListItemState extends State<ListItem> {
             setState(() {
               _check = val;
             });
+            print(widget._title);
+            print(widget._id);
+            print(_check);
           }),
     );
   }
