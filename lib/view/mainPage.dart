@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_todo/view/moviePage.dart';
 import 'package:flutter_app_todo/view/todoListPage.dart';
+import 'package:flutter_app_todo/view/arkitPage.dart';
 
 // HOME
 class MainPage extends StatefulWidget {
@@ -17,6 +18,12 @@ class MainPage extends StatefulWidget {
           icon: Icon(Icons.movie), title: Text('Movie')),
       "page": MoviePage()
     },
+    {
+      "label": BottomNavigationBarItem(
+          icon: Icon(Icons.photo_camera), title: Text('AR')),
+      "page": ArkitPage()
+    },
+
   ];
 
   @override
